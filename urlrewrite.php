@@ -64,4 +64,12 @@ $arUrlRewrite=array (
     'PATH' => '/news/index.php',
     'SORT' => 100,
   ),
+  8 =>
+		[
+            'CONDITION' => '#^/api/#',
+            'RULE'      => '',
+            'ID'        => '',
+            'PATH'      => '/api/index.php',
+            'SORT'      => 100,
+        ],
 );
