@@ -1,0 +1,13 @@
+#Файлы
+robors.txt
+composer.lock
+composer.phar
+storage.php
+
+#Директории
+/vendor
+/upload
+/images
+/bitrix
+/api.lk.psk.expert
+

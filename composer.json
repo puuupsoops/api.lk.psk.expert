@@ -1,0 +1,19 @@
+{
+    "name": "root/www",
+    "description": "Dashboard API Controller",
+    "autoload": {
+        "psr-4": {
+            "Root\\Www\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vasili Polshakov",
+            "email": "45201a@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.4"
+    }
+}
