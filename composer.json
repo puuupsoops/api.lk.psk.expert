@@ -17,7 +17,6 @@
         "monolog/monolog": "^2.2",
         "slim/psr7": "^1.4",
         "guzzlehttp/guzzle": "^7.3",
-        "phpunit/phpunit": "^9.5",
         "firebase/php-jwt": "^5.2"
     }
 }
