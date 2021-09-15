@@ -13,3 +13,10 @@ $group->group(
         });
     }
 );
+
+$group->group(
+    '/partner',
+    function (RouteCollectorProxy $group) {
+        $group->get('/{id}', \API\v1\Controllers\PartnerController::class . ':GetByGUID');
+    }
+);
