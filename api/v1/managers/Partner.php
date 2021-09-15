@@ -3,6 +3,8 @@ namespace API\v1\Managers;
 
 use Environment;
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/service/ErrorHandler.php.';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Partner.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/PartnerEx.php';
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Environment.php';
 
