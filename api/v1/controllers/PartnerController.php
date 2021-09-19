@@ -18,10 +18,10 @@ class PartnerController {
     /**
 	 * @var ContainerInterface Container Interface
 	 */
-	private   $container;
+	protected $container;
 
     /**
-	 * VerificationController constructor.
+	 * constructor.
 	 *
 	 * @param ContainerInterface $container
 	 */

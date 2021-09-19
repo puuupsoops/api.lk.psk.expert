@@ -6,6 +6,11 @@
  */
 class Environment
 {
+    /**
+     * @var string Приватный ключ для Токенов
+     */
+    public const JWT_PRIVATE_KEY = 'XYZabc';
+
     #region 1C OPTIONS
 
     /**
@@ -46,6 +51,11 @@ class Environment
      * @var string Идентификатор Типа Битрикс инфоблока: Склады
      */
     public const IBLOCK_TYPE_STORAGE    = 'storages';
+
+    /**
+     * @var string Идентификатор Типа Битрикс инфоблока: Пользователи
+     */
+    public const IBLOCK_TYPE_USERS    = 'users';
     
     #endregion
 
@@ -95,6 +105,21 @@ class Environment
      * @var string API код Битрикс инфоблока: Документы (связанные с контрактами)
      */
     public const IBLOCK_ID_DOCUMENTS__API_CODE    = 'Documents';
+
+    /**
+     * @var string Идентификатор Битрикс инфоблока: Настройки пользователей
+     */
+    public const IBLOCK_ID_USER    = '4';
+
+    /**
+     * @var string Мнемонический код Битрикс инфоблока: Настройки пользователей
+     */
+    public const IBLOCK_ID_USER__CODE    = 'USERS';
+
+    /**
+     * @var string API код Битрикс инфоблока: Настройки пользователей
+     */
+    public const IBLOCK_ID_USER__API_CODE    = 'Users';
 
     #endregion
 }
