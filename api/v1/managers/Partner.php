@@ -83,7 +83,7 @@ class Partner {
             [],
             $arFilter,
             false,
-            [],
+            ['nTopCount' => 1],
             $arSelect);
         
         while($obj = $arResult->Fetch()){
@@ -93,7 +93,7 @@ class Partner {
         if( count($Partners) == 1 ){
             return $Partners[0];
         }else{
-            return $Partners;
+            throw new \Exception('Контрагент не найден в базе данных',404);
         }
     }
 }
