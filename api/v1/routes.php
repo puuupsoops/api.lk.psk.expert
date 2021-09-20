@@ -26,8 +26,8 @@ $group->group(
 $group->get(
     '/auth',
     \API\v1\Controllers\UserController::class . ':Authorization'
-)->add(new AuthMiddleware());
-
+);
+#->add(new AuthMiddleware());
 $group->group(
     '/partner',
     function (RouteCollectorProxy $group) {

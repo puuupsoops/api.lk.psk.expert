@@ -61,8 +61,8 @@ class PartnerController {
         try{
             # Получить данные о контрагенте
             $Result = $Partner->GetByGUID($guid);
-        }catch(\API\v1\Service\ErrorHandler $e){
-            return \ErrorResponse($e,$response);
+        }catch(\Exception $e){
+            return ErrorResponse($e,$response);
         }
 
         # Сформировать успешный ответ
