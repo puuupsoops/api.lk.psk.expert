@@ -9,14 +9,19 @@ abstract class BaseResponse
 	/**
 	 * @var int Код ошибки
 	 */
-	public $code;
+	public int $code;
+
+    /**
+     * @var string Текст ошибки
+     */
+    public string $message;
 
 	/**
 	 * Конвертация класса в JSON
 	 *
 	 * @return false|string
 	 */
-	public final function AsJSON()
+	public function AsJSON()
 	{
 		return json_encode(get_object_vars($this));
 	}

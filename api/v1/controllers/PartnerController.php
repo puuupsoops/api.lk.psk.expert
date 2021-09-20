@@ -5,6 +5,10 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Partner.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Partner.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/PartnerEx.php';
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/responses/Responses.php';
+
+use API\v1\Models\ErrorResponse;
+use API\v1\Models\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -50,26 +54,27 @@ class PartnerController {
         $guid = $args['id'];
 
         /**
-         * @var \API\v1\Managers\Partner 
+         * @var \API\v1\Managers\Partner Класс для взаимодействия с данными контрагентов
          */
         $Partner = new \API\v1\Managers\Partner();
 
         try{
+            # Получить данные о контрагенте
             $Result = $Partner->GetByGUID($guid);
         }catch(\API\v1\Service\ErrorHandler $e){
-
-            $response->getBody()->write(json_encode($e->getMessage()));
-
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(404);
+            return \ErrorResponse($e,$response);
         }
-        
-        $response->getBody()->write(json_encode($Result->AsArray()));
+
+        # Сформировать успешный ответ
+        $Response = new Response();
+        $Response->code = 200;
+        $Response->data = $Result->AsArray();
+
+        $response->getBody()->write($Response->AsJSON());
 
         return $response
             ->withHeader('Content-Type', 'application/json')
-            ->withStatus(200);
+            ->withStatus($Response->code);
         
     }
 }
