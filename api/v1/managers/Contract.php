@@ -73,11 +73,11 @@ class Contract
             [],
             $arFilter,
             false,
-            ['nTopCount' => 1],
+            false,
             $arSelect);
 
         while($obj = $arResult->Fetch()){
-            $Partners[] = new \API\v1\Models\Contract($obj);
+            $Contracts[] = new \API\v1\Models\Contract($obj);
         }
 
         if(!empty($Contracts)){
