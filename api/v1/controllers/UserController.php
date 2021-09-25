@@ -77,10 +77,10 @@ class UserController
             "token" => JWT::encode([
                 'id'    =>  $responseData['id'],
                 'sign'  =>  $responseData['sign']
-            ],\Environment::JWT_PRIVATE_KEY,['HS256'])
+            ],\Environment::JWT_PRIVATE_KEY,'HS256')
         ];
         $Response->code = 200;
-
+        
         $response->getBody()->write(
             $Response->AsJSON()
         );

@@ -23,11 +23,12 @@ $group->group(
 );
 
 # Авторизация пользователя c обработкой JWT токена
-$group->get(
+$group->post(
     '/auth',
     \API\v1\Controllers\UserController::class . ':Authorization'
 );
 #->add(new AuthMiddleware());
+
 $group->group(
     '/partner',
     function (RouteCollectorProxy $group) {

@@ -59,6 +59,43 @@ class Environment
     
     #endregion
 
+    #region SECTION CODE
+
+    /**
+     * @var array Данные о пользовательском поле для расширения настроект SECTION в инфоблоке битрикс Контракты
+     */
+    public const IBLOCK_2_SECTION = [
+        # идентификатор
+        'ID' => 24,
+        # Объект в базе данных
+        'OBJECT' => 'IBLOCK_2_SECTION',
+        # Код поля
+        'CODE' => 'UF_UID'
+    ];
+
+    /**
+     * @var array Данные о секции инфоблока Склады: Контракты . Фабрика рабочей обуви
+     */
+    public const IBLOCK_SECTION_STORAGE__CONTRACT__WORK_SHOES = [
+        'ID' => 2,
+        'NAME' => 'ООО "Фабрика рабочей обуви"',
+        'CODE' => 'WORK_SHOES',
+        'HL_BLOCK_UID' => 'f59a4d06-2f35-11e7-8fdb-0025907c0298',
+        'HL_BLOCK' => self::IBLOCK_2_SECTION
+    ];
+
+    /**
+     * @var array Данные о секции инфоблока Склады: Контракты . Эксперт спецодежда
+     */
+    public const IBLOCK_SECTION_STORAGE__CONTRACT__SPEC_ODA = [
+        'ID' => 1,
+        'NAME' => 'ООО "Эксперт Спецодежда"',
+        'CODE' => 'SPEC_ODA',
+        'HL_BLOCK_UID' => 'b5e91d86-a58a-11e5-96ed-0025907c0298',
+        'HL_BLOCK' => self::IBLOCK_2_SECTION
+    ];
+    #endregion
+
     #region Идентификаторы инфоблоков
     
     /**

@@ -1,10 +1,11 @@
 <?php
 namespace API\v1\Models;
 
-use Exception;
-include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/service/ErrorHandler.php.';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/service/ErrorHandler.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/BaseModelEx.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/PartnerEx.php';
 
+use Exception;
 /**
  * Модель данных контрагента
  * 
@@ -18,12 +19,11 @@ class Partner extends \API\v1\Models\PartnerEx {
 
     /**
      * Конструктор класса
+     *
      * @param array $data Массив значений для инициализации
-     * @throws \Exception
      */
     public function __construct(array $data)
     {
-        if( is_array($data) ){
             $this->bitrixId         = $data['ID'];
             $this->name             = $data['NAME'];
             $this->uid              = $data['PROPERTY_UID_VALUE'];
@@ -35,15 +35,16 @@ class Partner extends \API\v1\Models\PartnerEx {
             $this->bik              = $data['PROPERTY_BIK_VALUE'];
             $this->payment          = $data['PROPERTY_PAYMENT_VALUE'];
             $this->correspondent    = $data['PROPERTY_CORRESPONDENT_VALUE'];
-        }else{
-            throw new \API\v1\Service\ErrorHandler('',\API\v1\Service\ErrorHandler::INVALID_PARAM_TYPE,$data);
-        }
+
+            # throw new \API\v1\Service\ErrorHandler('',\API\v1\Service\ErrorHandler::INVALID_PARAM_TYPE,$data);
     }
 
     /**
      * Получить идентификатор записи в базе данных Битрикса
+     *
+     * @return int Идентификатор
      */
-    public function ID(){
+    public function Id(): int{
         return $this->bitrixId;
     }
 }

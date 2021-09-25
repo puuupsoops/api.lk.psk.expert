@@ -1,66 +1,62 @@
 <?php
 namespace API\v1\Models;
 
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/BaseModelEx.php';
+
 /**
  * Внешняя модель данных контрагента
  * 
  * @package API\v1\Models
  */
-class PartnerEx {
+class PartnerEx extends \API\v1\Models\BaseModelEx {
+
     /**
      * @var string Уникальный идентификатор записи в базе 1С
      */
-    protected $uid;
+    protected string $uid;
     
     /**
      * @var string Наименование контрагента
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var string Город
      */
-    protected $city;
+    protected string $city;
 
     /**
      * @var string Контакнтный телефон
      */
-    protected $phone;
+    protected string $phone;
 
     /**
      * @var string Адрес электронной почты
      */
-    protected $email;
+    protected string $email;
 
     /**
      * @var string Адрес
      */
-    protected $address;
+    protected string $address;
 
     /**
      * @var string ИНН
      */
-    protected $inn;
+    protected string $inn;
 
     /**
      * @var string БИК
      */
-    protected $bik;
+    protected string $bik;
 
     /**
      * @var string Рассчётный счёт
      */
-    protected $payment;
+    protected string $payment;
 
     /**
      * @var string Корреспондентский счёт
      */
-    protected $correspondent;
-
-    /**
-     * Получить значения модели в виде массива
-     */
-    public function AsArray(){
-        return get_object_vars($this);
-    }
+    protected string $correspondent;
 }

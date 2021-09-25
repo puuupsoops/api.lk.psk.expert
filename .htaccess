@@ -1,6 +1,10 @@
 Options -Indexes 
 ErrorDocument 404 /404.php
 
+Header add Access-Control-Allow-Origin "*"
+Header add Access-Control-Allow-Headers "X-Requested-With, Content-Type, Accept, Origin, Authorization"
+Header add Access-Control-Allow-Methods "GET, POST, OPTIONS"
+
 <IfModule mod_php5.c>
   php_flag allow_call_time_pass_reference 1
   php_flag session.use_trans_sid off

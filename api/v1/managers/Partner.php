@@ -2,7 +2,7 @@
 namespace API\v1\Managers;
 
 use Environment;
-include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/service/ErrorHandler.php.';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/service/ErrorHandler.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Partner.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/PartnerEx.php';
 
@@ -19,12 +19,12 @@ class Partner {
     /**
      * @var string Идентификатор инфоблока в Битрикс
      */
-    private $iBlockID = Environment::IBLOCK_ID_PARTNERS;
+    private string $iBlockID = Environment::IBLOCK_ID_PARTNERS;
 
     /**
      * @var array Массив с описание полей свойств элемента инфоблока в Битрикс
      */
-    private $arProps = [
+    private array $arProps = [
         'PROPERTY_UID',
         'PROPERTY_CITY',
         'PROPERTY_PHONE',
@@ -39,7 +39,7 @@ class Partner {
     /**
      * @param string $guid Внешний XML идентификатор контрагента
      * @throws \API\v1\Service\ErrorHandler 
-     * @return API\v1\Models\Partner    Объект(ы) с данными о контрагенте
+     * @return \API\v1\Models\Partner    Объект(ы) с данными о контрагенте
      */
     public function GetByGUID(string $guid): \API\v1\Models\Partner{
         return $this->GetPartner(['XML_ID' => $guid]);
@@ -48,18 +48,22 @@ class Partner {
     /**
      * @param int $id Идентификатор записи контрагента в Битрикс
      * @throws \API\v1\Service\ErrorHandler
-     * @return API\v1\Models\Partner    Объект(ы) с данными о контрагенте 
+     * @return \API\v1\Models\Partner    Объект(ы) с данными о контрагенте
      */
     public function GetByBitrixID(int $id): \API\v1\Models\Partner{
         return $this->GetPartner(['ID' => $id]);
+    }
+
+    private function GetLinkStorage(){
+
     }
 
     /**
      * Возвращает данные о контрагенте
      * 
      * @param array $arFilter           Массив с параметрами для выбора значений
-     * @throws \API\v1\Service\ErrorHandler 
-     * @return API\v1\Models\Partner    Объект(ы) с данными о контрагенте
+     * @throws \API\v1\Service\ErrorHandler
+     * @return \API\v1\Models\Partner    Объект(ы) с данными о контрагенте
      */
     private function GetPartner(array $arFilter): \API\v1\Models\Partner{
         /**
