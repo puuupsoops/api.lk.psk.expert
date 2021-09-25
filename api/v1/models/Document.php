@@ -34,6 +34,11 @@ class Document extends \API\v1\Models\StorageDocumentEx
      */
     public function __construct(array $data)
     {
+        foreach($data as &$elem){
+            if(is_null($elem))
+                $elem = '';
+        }
+
             $this->bitrixId         = (int) $data['ID'];
             $this->contractBitrixId = (int) $data['PROPERTY_CONTRACT'];
             $this->partnerBitrixId  = (int) $data['PROPERTY_PARTNER'];

@@ -24,6 +24,11 @@ class Partner extends \API\v1\Models\PartnerEx {
      */
     public function __construct(array $data)
     {
+            foreach($data as &$elem){
+                if(is_null($elem))
+                    $elem = '';
+            }
+
             $this->bitrixId         = $data['ID'];
             $this->name             = $data['NAME'];
             $this->uid              = $data['PROPERTY_UID_VALUE'];

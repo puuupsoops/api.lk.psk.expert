@@ -34,6 +34,11 @@ class Contract extends \API\v1\Models\StorageEx
      */
     public function __construct(array $data)
     {
+        foreach($data as &$elem){
+            if(is_null($elem))
+                $elem = '';
+        }
+
         $this->bitrixId         = (int) $data['ID'];
         $this->partnerBitrixId  = (int) $data['PROPERTY_PARTNER_VALUE'];
 
