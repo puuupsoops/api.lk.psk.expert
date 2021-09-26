@@ -4,6 +4,7 @@ namespace API\v1\Managers;
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/service/ErrorHandler.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Partner.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Document.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/BaseModelEx.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/StorageDocumentEx.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Partner.php';
@@ -49,7 +50,8 @@ class Document
          */
         $arSelect = [
             'ID',
-            'NAME'
+            'NAME',
+            'ACTIVE_FROM'
         ];
 
         $arSelect = array_merge($arSelect,$this->arProps);
@@ -64,7 +66,7 @@ class Document
             false,
             $arSelect);
 
-        while($obj = $arResult->Fetch()){
+        while($obj = $arResult->Fetch() ){
             $Documents[] = new \API\v1\Models\Document($obj);
         }
 
