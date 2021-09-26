@@ -40,13 +40,13 @@ class Document extends \API\v1\Models\StorageDocumentEx
         }
 
             $this->bitrixId         = (int) $data['ID'];
-            $this->contractBitrixId = (int) $data['PROPERTY_CONTRACT'];
-            $this->partnerBitrixId  = (int) $data['PROPERTY_PARTNER'];
+            $this->contractBitrixId = (int) $data['PROPERTY_CONTRACT_VALUE'];
+            $this->partnerBitrixId  = (int) $data['PROPERTY_PARTNER_VALUE'];
 
             $this->number           = $data['NAME'];
             $this->date             = $data['ACTIVE_FROM'];
-            $this->expires          = $data['PROPERTY_EXPIRES'];
-            $this->debt             = (float) $data['PROPERTY_DEBT'];
+            $this->expires          = $data['PROPERTY_EXPIRES_VALUE'];
+            $this->debt             = (float) $data['PROPERTY_DEBT_VALUE'];
 
     }
 
