@@ -24,4 +24,21 @@ class StorageDocumentEx extends \API\v1\Models\BaseModelEx
      * @var float Долг (в рублях)
      */
     protected float $debt;
+
+
+    /**
+     * Получить значения модели в виде массива
+     */
+    public function AsArray(): array{
+
+        if($this->expires !== ''){
+            $this->expires = strtotime($this->expires);
+        }
+
+        if($this->date !== ''){
+            $this->date = strtotime($this->date);
+        }
+
+        return get_object_vars($this);
+    }
 }

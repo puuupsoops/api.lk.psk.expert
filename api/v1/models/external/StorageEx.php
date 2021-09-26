@@ -49,4 +49,16 @@ class StorageEx extends \API\v1\Models\BaseModelEx
      * @var string Дата погашения
      */
     protected string $date;
+
+    /**
+     * Получить значения модели в виде массива
+     */
+    public function AsArray(): array{
+
+        if($this->date !== ''){
+            $this->date = strtotime($this->date);
+        }
+
+        return get_object_vars($this);
+    }
 }

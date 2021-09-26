@@ -40,3 +40,8 @@ $group->group(
 
     }
 );
+
+$group->get(
+    '/partners',
+    \API\v1\Controllers\PartnerController::class . ':Partners'
+);
