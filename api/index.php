@@ -16,6 +16,7 @@ $container = new Container();
 \Slim\Factory\AppFactory::setContainer($container);
 $app = \Slim\Factory\AppFactory::create(null);
 
+/*
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
@@ -27,6 +28,7 @@ $app->add(function ($req, $res, $next) {
         ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
+*/
 
 $app->group(
     '/api',

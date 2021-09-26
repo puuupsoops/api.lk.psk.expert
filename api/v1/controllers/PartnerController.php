@@ -2,8 +2,16 @@
 namespace API\v1\Controllers;
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Partner.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Contract.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Document.php';
+
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Partner.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Contract.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/Document.php';
+
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/PartnerEx.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/StorageEx.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/StorageDocumentEx.php';
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/responses/Responses.php';
 
