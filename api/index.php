@@ -1,6 +1,6 @@
 <?php
-header("Access-Control-Allow-Origin: *");
 require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
+require_once 'v1/middleware/CORSMiddleware.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -36,13 +36,15 @@ $app->group(
         /**
          * API для получения и обмена данных из внешнего сайта Bitrix и базы 1С.
          */
-        $group->group(
-            '/1.0',
-            function (RouteCollectorProxy $group) {
-                require_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/routes.php';
-            }
-        );
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/routes.php';
+
+        #$group->group(
+        #    '/1.0',
+        #    function (RouteCollectorProxy $group) {
+        #
+        #    }
+        #);
     }
-);
+)->add(new \API\v1\Middleware\CORSMiddleware());
 
 $app->run();
