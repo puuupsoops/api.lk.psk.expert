@@ -14,11 +14,13 @@ class CORSMiddleware
         \Psr\Http\Message\ServerRequestInterface $request,
         \Psr\Http\Server\RequestHandlerInterface $handler
     ): \Psr\Http\Message\ResponseInterface {
-        $response = new \Slim\Psr7\Response();
+
+        $response = $handler->handle($request);
 
         return $response
             ->withHeader('Access-Control-Allow-Origin','*')
             ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+            ->withHeader('Access-Control-Allow-Credentials', 'true');
     }
 }
