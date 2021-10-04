@@ -22,6 +22,11 @@ $group->group(
     }
 );
 
+$group->get(
+    '/manager',
+    \API\v1\Controllers\PartnerController::class . ':Manager'
+);
+
 # Авторизация пользователя c обработкой JWT токена
 $group->post(
     '/auth',

@@ -48,15 +48,18 @@ class UserController
          */
         #$requestData = $request->getAttribute('tokenAuthData');
 
+        $body = json_decode($request->getBody()->getContents(),true);
+
         /**
          * @var string Логин
          */
-        $login = $request->getParsedBody()['login'];
+        $login = $body['login'];
 
         /**
          * @var string Пароль
          */
-        $password = $request->getParsedBody()['password'];
+        $password = $body['password'];
+
 
         try{
 

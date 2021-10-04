@@ -41,6 +41,14 @@ class Contract
     ];
 
     # Получить контракты связанные с контрагентом
+
+    /**
+     * Получить связанные контракты
+     *
+     * @param \API\V1\Models\Partner $partner Модель контрагента
+     * @return array        Массив с моделями контракта
+     * @throws \Exception   404 контракты не найдены
+     */
     public function GetAll(\API\V1\Models\Partner $partner){
         return $this->GetContracts($partner);
     }
