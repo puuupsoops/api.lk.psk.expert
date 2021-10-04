@@ -68,15 +68,12 @@ class PartnerController {
     ): ResponseInterface{
 
         $responseData = [
-            'response'=> [
                 'image' => 'http://10.68.5.243/upload/main/476/476c8c674d0c302163f5d03734e538dd.png',
                 'phone2' => '',
                 'email' => 's.melentyev@psk.expert',
                 'contact' => '84951033030',
                 'phone1' => '495-103-3030 доб.490',
                 'name' => 'Мелентьев Сергей Александрович'
-            ],
-            'error' => null
         ];
 
         # Сформировать успешный ответ
