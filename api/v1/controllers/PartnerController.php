@@ -197,11 +197,9 @@ class PartnerController {
 
         for($i = 0; $i < count($partnersID); $i++){
             $partner = $Partner->GetByBitrixID($partnersID[$i]);
-            echo $partner->AsArray()['name'] . PHP_EOL;
             $responseData[$i] = $partner->AsArray();
 
             $arContracts = $Contract->GetAll($partner);
-            var_dump($arContracts);
 
             foreach($arContracts as $contract){
                 $storage = $contract->AsArray();
