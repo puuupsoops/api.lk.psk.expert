@@ -128,22 +128,21 @@ class PartnerController {
 
         $partnersID = [];
         while($size = $sizes->GetNext()){
+
+            # получаем ID связанных записей контрагентов
             $partnersID[] = $size['VALUE'];
         }
 
         $Partner = new \API\v1\Managers\Partner();
-
+        $Contract = new \API\v1\Managers\Contract();
+        $Document = new \API\v1\Managers\Document();
+/*
         foreach( $partnersID as $el){
             $p = $Partner->GetByBitrixID($el);
             $PartnerList[] = $p->AsArray()['uid'];
         }
-
-        $Contract = new \API\v1\Managers\Contract();
-
-        $Document = new \API\v1\Managers\Document();
-
-        $responseData = [];
-
+*/
+/*
         for($i = 0; $i < count($PartnerList); $i++){
 
             try{
@@ -192,6 +191,35 @@ class PartnerController {
             return $response
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus($Response->code);
+        }
+*/
+        $responseData = [];
+
+        for($i = 0; $i < count($partnersID); $i++){
+            $partner = $Partner->GetByBitrixID($partnersID[$i]);
+            echo $partner->AsArray()['name'] . PHP_EOL;
+            $responseData[$i] = $partner->AsArray();
+
+            $arContracts = $Contract->GetAll($partner);
+            var_dump($arContracts);
+
+            foreach($arContracts as $contract){
+                $storage = $contract->AsArray();
+                $documents = [];
+                try{
+                    $arDocuments[] = $Document->GetBounds($contract);
+                    foreach($arDocuments as $document){
+                        $documents[] = $document;
+                    }
+
+                }catch(\Exception $e){
+                    if($e->getCode() == 404)
+                        $documents = [];
+                }
+                $storage['documents'] = $documents;
+                $responseData[$i]['storages'][] = $storage;
+            }
+
         }
 
         # Сформировать успешный ответ
