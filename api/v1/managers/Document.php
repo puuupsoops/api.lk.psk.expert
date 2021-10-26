@@ -29,7 +29,7 @@ class Document
     private string $iBlockID = Environment::IBLOCK_ID_DOCUMENTS;
 
     /**
-     * @var array Массив с описание полей свойств элемента инфоблока в Битрикс
+     * @var array Массив с описанием полей свойств элемента инфоблока в Битрикс
      */
     private array $arProps = [
         'PROPERTY_DEBT',
@@ -56,8 +56,10 @@ class Document
 
         $arSelect = array_merge($arSelect,$this->arProps);
 
-        $arFilter['IBLOCK_ID']          = $this->iBlockID;
-        $arFilter['PROPERTY_PARTNER']   = $contract->PartnerId();
+        $arFilter = [
+            'IBLOCK_ID' => $this->iBlockID,
+            'PROPERTY_CONTRACT' => $contract->Id()
+        ];
 
         $arResult = \CIBlockElement::GetList(
             [],

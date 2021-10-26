@@ -1,4 +1,9 @@
 <?php
+//header('Access-Control-Allow-Origin:*');
+//header('Access-Control-Allow-Headers:X-Request-With');
+//header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+//header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
 require_once 'v1/middleware/CORSMiddleware.php';
 
@@ -20,11 +25,13 @@ $app = \Slim\Factory\AppFactory::create(null);
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
+*/
 
-$app->add(function ($req, $res, $next) {
+/*
+$app->add(function ($req, $res) {
     $response = $next($req, $res);
     return $response
-        ->withHeader('Access-Control-Allow-Origin', 'http://10.68.5.205')
+        ->withHeader('Access-Control-Allow-Origin', '*')
         ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
@@ -45,6 +52,7 @@ $app->group(
         #    }
         #);
     }
-)->add(new \API\v1\Middleware\CORSMiddleware());
+);
+    //->add(new \API\v1\Middleware\CORSMiddleware());
 
 $app->run();

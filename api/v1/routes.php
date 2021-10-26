@@ -1,6 +1,8 @@
 <?php
 require_once 'controllers/PartnerController.php';
 require_once 'controllers/UserController.php';
+require_once 'controllers/ProductController.php';
+
 require_once 'middleware/AuthMiddleware.php';
 
 use Slim\Routing\RouteCollectorProxy;
@@ -22,6 +24,26 @@ $group->group(
     }
 );
 
+# Получить данные по товару
+$group->group(
+    '/product',
+    function (RouteCollectorProxy $group){
+
+        # поиск позиции
+        $group->get(
+            '/search',
+            \API\v1\Controllers\ProductController::class . ':SearchByWord'
+        );
+
+        # по bitrix-id
+        $group->get(
+            '/{id}',
+            \API\v1\Controllers\ProductController::class . ':GetById'
+        );
+
+    }
+);
+# Получить данные по менеджеру
 $group->get(
     '/manager',
     \API\v1\Controllers\PartnerController::class . ':Manager'

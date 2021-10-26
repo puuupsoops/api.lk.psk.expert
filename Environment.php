@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @var \Bitrix\Main\Config\Configuration Экземпляр класса конфигуратора, (работа с файлом .settings.php)
+ */
+$configuration = \Bitrix\Main\Config\Configuration::getInstance();
+$arConfig = $configuration->get('api_settings');
+
+/**
  * Environment class
  * Класс с константами
  */

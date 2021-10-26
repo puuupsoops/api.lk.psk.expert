@@ -19,7 +19,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/responses/ErrorResponse
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Environment.php';
 
-
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 \Bitrix\Main\Loader::includeModule('iblock');
@@ -89,7 +88,7 @@ class PartnerController {
     }
 
     /**
-     *
+     * Получить пул данных контрагентов для авторизированного пользователя.
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -205,9 +204,16 @@ class PartnerController {
                 $storage = $contract->AsArray();
                 $documents = [];
                 try{
+                    $arDocuments = [];
+
                     $arDocuments[] = $Document->GetBounds($contract);
                     foreach($arDocuments as $document){
-                        $documents[] = $document;
+
+                        foreach($document as $el){
+                            // переводим объекты документов в массив
+                            $documents[] = $el->AsArray();
+                        }
+
                     }
 
                 }catch(\Exception $e){
@@ -215,6 +221,7 @@ class PartnerController {
                         $documents = [];
                 }
                 $storage['documents'] = $documents;
+
                 $responseData[$i]['storages'][] = $storage;
             }
 
@@ -233,7 +240,7 @@ class PartnerController {
     }
 
     /**
-     * 
+     * Получить данные о контрагенте по уникальному идентификатору.
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
