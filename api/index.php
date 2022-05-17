@@ -37,6 +37,56 @@ $app->add(function ($req, $res) {
 });
 */
 
+//$app->addBodyParsingMiddleware();
+//
+//$app->add(function(
+//    \Psr\Http\Message\ServerRequestInterface $request,
+//    \Psr\Http\Server\RequestHandlerInterface $handler) : \Psr\Http\Message\ResponseInterface {
+//
+//    $routeContext = \Slim\Routing\RouteContext::fromRequest($request);
+//    $routingResults = $routeContext->getRoutingResults();
+//
+//    $methods = $routingResults->getAllowedMethods();
+//    $requestHeaders = $request->getHeaderLine('Access-Control-Request-Headers');
+//
+//    $response = $handler->handle($request);
+//
+//    $response = $response->withHeader('Access-Control-Allow-Origin', '*');
+//    $response = $response->withHeader('Access-Control-Allow-Methods', implode(',', $methods));
+//    $response = $response->withHeader('Access-Control-Allow-Headers', $requestHeaders);
+//
+//    // Optional: Allow Ajax CORS requests with Authorization header
+//     $response = $response->withHeader('Access-Control-Allow-Credentials', 'true');
+//
+//    return $response;
+//} );
+//
+//$app->addRoutingMiddleware();
+
+//region lazy CORS
+$app->options(
+    '/{routes:.+}',
+    function(
+        \Psr\Http\Message\ServerRequestInterface $request,
+        \Psr\Http\Message\ResponseInterface $response): \Psr\Http\Message\ResponseInterface{
+
+        return $response;
+    }
+);
+
+$app->add(function(
+    \Psr\Http\Message\ServerRequestInterface $request,
+    \Psr\Http\Server\RequestHandlerInterface $handler) : \Psr\Http\Message\ResponseInterface {
+    $response = $handler->handle($request);
+    return $response
+        ->withHeader('Access-Control-Allow-Origin', '*')
+        ->withHeader('Access-Control-Allow-Headers', '*')
+        ->withHeader('Access-Control-Allow-Methods', '*')
+        ->withHeader('Access-Control-Allow-Credentials', 'true')->withStatus(204);
+    }
+);
+//endregion
+
 $app->group(
     '/api',
     function (RouteCollectorProxy $group) {
@@ -53,6 +103,6 @@ $app->group(
         #);
     }
 );
-    //->add(new \API\v1\Middleware\CORSMiddleware());
+//->add(new \API\v1\Middleware\CORSMiddleware());
 
 $app->run();

@@ -68,11 +68,18 @@ class PartnerController {
 
         $responseData = [
                 'image' => 'http://10.68.5.243/upload/main/476/476c8c674d0c302163f5d03734e538dd.png',
-                'phone2' => '',
+                'phone2' => '', // телефон если есть запасной
                 'email' => 's.melentyev@psk.expert',
                 'contact' => '84951033030',
                 'phone1' => '495-103-3030 доб.490',
-                'name' => 'Мелентьев Сергей Александрович'
+                'name' => 'Мелентьев Сергей Александрович',
+                'header' => [ // тут заведующий над менеджером
+                    'name' => 'Иванов Иван Иванович',
+                    'contact' => '84951033030',
+                    'email' => 'sergei@melentiev.com',
+                    'phone1' => '495-103-3030 доб.577',
+                    'phone2' => '',
+                ]
         ];
 
         # Сформировать успешный ответ
@@ -119,7 +126,7 @@ class PartnerController {
 
 
         $sizes =  \CIBlockElement::GetProperty(
-            4,
+            \Environment::GetInstance()['iblocks']['Users'],
             $userLink,
             [],
             ['CODE' => 'PARTNERS']

@@ -26,7 +26,7 @@ class PartnerEx extends \API\v1\Models\BaseModelEx {
     protected string $city;
 
     /**
-     * @var string Контакнтный телефон
+     * @var string Контактный телефон
      */
     protected string $phone;
 
@@ -51,7 +51,7 @@ class PartnerEx extends \API\v1\Models\BaseModelEx {
     protected string $bik;
 
     /**
-     * @var string Рассчётный счёт
+     * @var string Расчётный счёт
      */
     protected string $payment;
 
@@ -59,4 +59,10 @@ class PartnerEx extends \API\v1\Models\BaseModelEx {
      * @var string Корреспондентский счёт
      */
     protected string $correspondent;
+
+    /** @var string Идентификатор менеджера */
+    protected string $manager_uid;
+
+    /** @var string  ФИО менеджера */
+    protected string $manager_name;
 }

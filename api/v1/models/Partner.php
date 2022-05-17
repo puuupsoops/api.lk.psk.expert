@@ -40,7 +40,8 @@ class Partner extends \API\v1\Models\PartnerEx {
             $this->bik              = $data['PROPERTY_BIK_VALUE'];
             $this->payment          = $data['PROPERTY_PAYMENT_VALUE'];
             $this->correspondent    = $data['PROPERTY_CORRESPONDENT_VALUE'];
-
+            $this->managerUid        = $data['PROPERTY_MANAGER_UID_VALUE'];
+            $this->managerName      = $data['PROPERTY_MANAGER_NAME_VALUE'];
             # throw new \API\v1\Service\ErrorHandler('',\API\v1\Service\ErrorHandler::INVALID_PARAM_TYPE,$data);
     }
 

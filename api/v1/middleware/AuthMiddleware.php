@@ -3,6 +3,7 @@ namespace API\v1\Middleware;
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Environment.php';
 
 use Firebase\JWT\JWT;
 
@@ -51,11 +52,16 @@ class AuthMiddleware
 
         try {
             $arAlgs    = ['HS256', 'HS512', 'HS384'];
-            $tokenData = (array)JWT::decode($token ?? '', Environment::JWT_PRIVATE_KEY, $arAlgs);
+            $tokenData = (array)JWT::decode($token ?? '', \Environment::JWT_PRIVATE_KEY, $arAlgs);
+
+//            $request = $request->withAttribute('tokenAuthData', [
+//                'username' => $tokenData['username'],
+//                'password' => $tokenData['password']
+//            ]);
 
             $request = $request->withAttribute('tokenAuthData', [
-                'username' => $tokenData['username'],
-                'password' => $tokenData['password']
+                'id' => $tokenData['id'],
+                'sign' => $tokenData['sign']
             ]);
 
             $response = $handler->handle($request);

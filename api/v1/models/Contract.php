@@ -88,10 +88,38 @@ class Contract extends \API\v1\Models\StorageEx
     private function SetSection(int $id){
         $section = [];
 
+        /**
+         *  Идентификатор секции инфоблока
+         */
+        $specOda = \Environment::GetInstance()['iblocks']['sections']['Contracts']['SPEC_ODA'];
+        /**
+         *  Идентификатор секции инфоблока
+         */
+        $workShoes = \Environment::GetInstance()['iblocks']['sections']['Contracts']['WORK_SHOES'];
+
         switch ($id){
-            case 1: $section = \Environment::IBLOCK_SECTION_STORAGE__CONTRACT__SPEC_ODA;
+            /**
+             * Установки складов
+             */
+            case $specOda:
+                //$section = \Environment::IBLOCK_SECTION_STORAGE__CONTRACT__SPEC_ODA;
+                $section = [
+                    'ID' => $specOda,
+                    'NAME' => 'ООО "Эксперт Спецодежда"',
+                    'CODE' => 'SPEC_ODA',
+                    'HL_BLOCK_UID' => 'b5e91d86-a58a-11e5-96ed-0025907c0298',
+                    //'HL_BLOCK' =>
+                ];
                 break;
-            case 2: $section = \Environment::IBLOCK_SECTION_STORAGE__CONTRACT__WORK_SHOES;
+            case $workShoes:
+                //$section = \Environment::IBLOCK_SECTION_STORAGE__CONTRACT__WORK_SHOES;
+                $section = [
+                    'ID' => $workShoes,
+                    'NAME' => 'ООО "Фабрика рабочей обуви"',
+                    'CODE' => 'WORK_SHOES',
+                    'HL_BLOCK_UID' => 'f59a4d06-2f35-11e7-8fdb-0025907c0298',
+                    //'HL_BLOCK' =>
+                ];
                 break;
             default:
                 break;

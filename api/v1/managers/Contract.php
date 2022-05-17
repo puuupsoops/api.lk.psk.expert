@@ -10,8 +10,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Partner.php';
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Environment.php';
 
-use Environment;
-
 \Bitrix\Main\Loader::includeModule('iblock');
 
 /**
@@ -24,7 +22,7 @@ class Contract
     /**
      * @var string Идентификатор инфоблока в Битрикс
      */
-    private string $iBlockID = Environment::IBLOCK_ID_CONTRACTS;
+    private $iBlockID;
 
     /**
      * @var array Массив с описание полей свойств элемента инфоблока в Битрикс
@@ -39,6 +37,10 @@ class Contract
         'PROPERTY_DISCOUNT',
         'PROPERTY_PAY_DATE'
     ];
+
+    public function __construct(){
+        $this->iBlockID = (string) \Environment::GetInstance()['iblocks']['Contracts'];
+    }
 
     # Получить контракты связанные с контрагентом
 
@@ -91,7 +93,7 @@ class Contract
         if(!empty($Contracts)){
             return $Contracts;
         }else{
-            throw new \Exception('Связанные контракты отсутствуют в базе данных',404);
+            return [];
         }
     }
 

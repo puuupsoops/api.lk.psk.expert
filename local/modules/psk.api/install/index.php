@@ -56,10 +56,10 @@ class psk_api extends CModule{
             //region Действия при установке модуля
 
             try {
-                // создание таблиц
+                // создание таблиц (инфоблоков)
                 $arConfig = $this->InstallDB();
 
-                // установка значений
+                // Установка дополнительных значений в конфигурационный массив
                 $this->SetUp($arConfig);
 
             }catch(\Exception $e){
@@ -163,7 +163,7 @@ class psk_api extends CModule{
     }
 
     /**
-     * Установка значений
+     * Установка дополнительных значений в конфигурационный массив
      *
      * @param array $arConfig Массив с параметрами
      *
@@ -187,7 +187,7 @@ class psk_api extends CModule{
             'IBLOCK_'.$arConfig['iblocks']['Contracts'].'_SECTION',
             $arConfig['iblocks']['sections']['Contracts']['WORK_SHOES'],
             [
-                'UF_UID' => 'b5e91d86-a58a-11e5-96ed-0025907c0298'
+                'UF_UID' => 'f59a4d06-2f35-11e7-8fdb-0025907c0298'
             ]
         );
     }
@@ -211,7 +211,7 @@ class psk_api extends CModule{
             }
         }
 
-  /*
+  /* присутствует в конфигурации .settings.php:
         $ar = [
             'api_settings' =>
                 array (
@@ -303,6 +303,19 @@ class psk_api extends CModule{
             throw new Exception( $e->getMessage() );
         }
 
+        //region создать сущности таблиц напрямую
+
+        foreach(glob('/home/bitrix/www/local/modules/psk.api' . '/lib/*.php') as $file){
+            include($file);
+        }
+
+        if(\Bitrix\Main\Application::getConnection(\Psk\Api\Orders\DirectoryTable::getConnectionName())
+            ->isTableExists(\Bitrix\Main\Entity\Base::getInstance('\Psk\Api\Orders\DirectoryTable')->getDBTableName()))
+        {
+            \Bitrix\Main\Entity\Base::getInstance('\Psk\Api\Orders\DirectoryTable')->createDbTable();
+        }
+
+        //endregion
         return $arSettings;
     }
 
@@ -313,6 +326,7 @@ class psk_api extends CModule{
      */
     public function UnInstallDB()
     {
+        CModule::IncludeModule($this->MODULE_ID);
         CModule::IncludeModule("iblock");
 
         /**
@@ -342,6 +356,16 @@ class psk_api extends CModule{
                 throw new Exception($e->getMessage());
             }
         }
+
+        //region удаление сущностей созданных таблиц в битрикс напрямую
+
+        \Bitrix\Main\Application::getConnection(\Psk\Api\Orders\DirectoryTable::getConnectionName())
+            ->queryExecute('drop table if exists ' . \Bitrix\Main\Entity\Base::getInstance('\Psk\Api\Orders\DirectoryTable')->getDBTableName());
+
+        //endregion
+
+        // Удалит все переменные модуля (см. на страницу с настройками модуля):
+        // \Bitrix\Main\Config\Option::delete($this->MODULE_ID);
 
     }
 
@@ -531,6 +555,8 @@ class psk_api extends CModule{
     }
 
     /**
+     * Удаляет информационный блок по его идентификатору
+     *
      * @param string $id    Идентификатор инфоблока в битрикс
      * @throws Exception    Ошибка удаления инфоблока
      */

@@ -19,7 +19,7 @@ class Partner {
     /**
      * @var string Идентификатор инфоблока в Битрикс
      */
-    private string $iBlockID = Environment::IBLOCK_ID_PARTNERS;
+    private $iBlockID;
 
     /**
      * @var array Массив с описание полей свойств элемента инфоблока в Битрикс
@@ -34,7 +34,13 @@ class Partner {
         'PROPERTY_BIK',
         'PROPERTY_PAYMENT',
         'PROPERTY_CORRESPONDENT',
+        'PROPERTY_MANAGER_UID',
+        'PROPERTY_MANAGER_NAME'
     ];
+
+    public function __construct(){
+        $this->iBlockID = (string) \Environment::GetInstance()['iblocks']['Partners'];
+    }
 
     /**
      * @param string $guid Внешний XML идентификатор контрагента

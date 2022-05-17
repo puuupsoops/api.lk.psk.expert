@@ -1,17 +1,15 @@
 <?php
-
-/**
- * @var \Bitrix\Main\Config\Configuration Экземпляр класса конфигуратора, (работа с файлом .settings.php)
- */
-$configuration = \Bitrix\Main\Config\Configuration::getInstance();
-$arConfig = $configuration->get('api_settings');
-
 /**
  * Environment class
  * Класс с константами
  */
 class Environment
 {
+    /**
+     * @var string BASE64 авторизация к боевой базе 1С
+     */
+    public const AUTH_1C_KEY_BASE = 'T0RhdGE6MTE=';
+
     /**
      * @var string Приватный ключ для Токенов
      */
@@ -164,5 +162,64 @@ class Environment
      */
     public const IBLOCK_ID_USER__API_CODE    = 'Users';
 
+
+    /** @var string  Идентификатор Битрикс инфоблока: Претензии*/
+    public const IBLOCK_ID_CLAIMS = '51';
+
+    /** @var string  Мнемонический код Битрикс инфоблока: Претензии*/
+    public const IBLOCK_ID_CLAIMS__CODE = 'CLAIMS';
+
+    /** @var string API код Битрикс инфоблока: Претензии*/
+    public const IBLOCK_ID_CLAIMS__API_CODE = 'Claims';
+
+
+    /** @var string  Идентификатор Битрикс инфоблока: Заявки на транспорт*/
+    public const IBLOCK_ID_SHIPMENTS = '52';
+
+    /** @var string  Мнемонический код Битрикс инфоблока: Заявки на транспорт*/
+    public const IBLOCK_ID_SHIPMENTS__CODE = 'SHIPMENTS';
+
+    /** @var string  API код Битрикс инфоблока: Заявки на транспорт*/
+    public const IBLOCK_ID_SHIPMENTS__API_CODE = 'Shipments';
+
     #endregion
+
+    /**
+     * @var array Массив с конфигурацией
+     */
+    static private $arConfig;
+
+    /**
+     * Массив с конфигурацией
+     *
+     * @return array
+     * @throws Exception
+     */
+    static public function GetInstance(): array{
+
+        if(!self::$arConfig){
+            self::init();
+        }
+
+        return self::$arConfig;
+    }
+
+    /**
+     * Иницилизирует массив с параметрами конфигурации
+     *
+     * @throws Exception Отсутсвуют параметры конфигурации.
+     */
+    static private function init(){
+        /**
+         * @var \Bitrix\Main\Config\Configuration Экземпляр класса конфигуратора, (работа с файлом .settings.php)
+         */
+        $configuration = \Bitrix\Main\Config\Configuration::getInstance();
+        $arConfig = $configuration->get('api_settings');
+
+        if(!$arConfig){
+            throw new \Exception('Данные о конфигурации API отсутствуют. Разверните модуль или проверьте файл \bitrix\.settings.php',400);
+        }
+
+        self::$arConfig = $arConfig;
+    }
 }

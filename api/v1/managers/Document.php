@@ -12,8 +12,6 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Contract.php';
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Environment.php';
 
-use Environment;
-
 \Bitrix\Main\Loader::includeModule('iblock');
 
 /**
@@ -26,7 +24,7 @@ class Document
     /**
      * @var string Идентификатор инфоблока в Битрикс
      */
-    private string $iBlockID = Environment::IBLOCK_ID_DOCUMENTS;
+    private $iBlockID;
 
     /**
      * @var array Массив с описанием полей свойств элемента инфоблока в Битрикс
@@ -37,6 +35,11 @@ class Document
         'PROPERTY_CONTRACT',
         'PROPERTY_PARTNER',
     ];
+
+    public function __construct(){
+        $this->iBlockID = (string) \Environment::GetInstance()['iblocks']['Documents'];
+
+    }
 
     # получить массив документов связанных с контрактом
     public function GetBounds(\API\V1\Models\Contract $contract): array {
@@ -69,13 +72,14 @@ class Document
             $arSelect);
 
         while($obj = $arResult->Fetch() ){
+
             $Documents[] = new \API\v1\Models\Document($obj);
         }
 
         if(!empty($Documents)){
             return $Documents;
         }else{
-            throw new \Exception('Связанные контракты отсутствуют в базе данных',404);
+            return [];
         }
     }
 }

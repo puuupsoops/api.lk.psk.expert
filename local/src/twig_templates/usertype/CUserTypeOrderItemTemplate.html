@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="property_row" id="{{ itemId }}">
+    <b>
+        <span>GUID Товара:</span>
+
+        {% if product is empty %}
+        <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][GUID]" id="PROP[{{ setting[1] }}][{{ setting[2] }}]"
+               value="" size="35" type="text">
+
+        {% else %}
+        <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][GUID]" id="PROP[{{ setting[1] }}][{{ setting[2] }}]"
+               value="{{ product['guid'] }}" size="35" type="text">
+
+        {% endif %}
+
+        <input type="button" value="Выбрать товар" onclick="alert('Тестовый режим!')">
+        &nbsp;&nbsp;<input type="button" style="height: auto;" value="Удалить товар" title="Удалить товар"
+                           onclick="document.getElementById('{{ itemId }}').parentNode.parentNode.remove()">
+    </b>
+    <br>
+    {% if product['characteristics'] is empty %}
+
+    <div>
+        <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][0][GUID]" id=""
+               value="" size="35" type="text">
+        <input type="button" value="Выбрать характеристику" onclick="alert('Тестовый режим!')">
+        <br>
+        <br>
+        &nbsp;<span>Количество:</span>
+        <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][0][QUANTITY]" id=""
+               value="" size="5" type="number">
+        &nbsp;<span>Цена за ед.:</span>
+        <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][0][PRICE]" id=""
+               value="" size="15" type="text" disabled>
+        <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][0][ORGGUID]" id=""
+               value="" type="hidden">
+    </div>
+    <br>
+
+    {% else %}
+
+        {% for key, characteristic in product['characteristics'] %}
+            <div id="{{ itemId }}_{{ key }}">
+                <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][{{ key }}][GUID]" id=""
+                       value="{{ characteristic['guid'] }}" size="35" type="text">
+                <input type="button" value="Выбрать характеристику" onclick="alert('Тестовый режим!')">
+                <br>
+                <br>
+                &nbsp;<span>Количество:</span>
+                <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][{{ key }}][QUANTITY]" id=""
+                       value="{{ characteristic['quantity'] }}" size="5" type="number">
+                &nbsp;<span>Цена за ед.:</span>
+                <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][{{ key }}][PRICE]" id=""
+                       value="" size="15" type="text" disabled>
+                <input name="PROP[{{ setting[1] }}][{{ setting[2] }}][VALUE][CHARACTERISTICS][{{ key }}][ORGGUID]" id=""
+                       value="{{ characteristic['orgguid'] }}" type="hidden">
+                &nbsp;&nbsp;<input type="button" style="height: auto;" value="x" title="Удалить"
+                                   onclick="document.getElementById('{{ itemId }}_{{ key }}').remove()">
+            </div>
+            <br>
+        {% endfor %}
+
+    {% endif %}
+
+    <b>
+        <span id="sp_9b659312b6d906a4ed87a6347b4ff4f4_n0"></span>
+    </b>
+</div>
+<hr>
+<br>
+
+
