@@ -119,9 +119,7 @@ class ProductController
         if($arProduct['PRODUCT']['UID'] || $arProduct['FOUND'])
         {
             // если есть совпадения и UID продукта, обращаемся к 1С, актуализируем данные.
-            $Response1C = $Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $arProduct['PRODUCT']['UID'],[
-                'auth' => ['OData', '11']
-            ]);
+            $Response1C = $Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $arProduct['PRODUCT']['UID']);
 
             $result = mb_substr(trim($Response1C->getBody()->getContents()), 2, -1);
 

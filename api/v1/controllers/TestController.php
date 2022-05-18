@@ -317,9 +317,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
-                        'auth' => ['OData', '11']
-                    ]);
+                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
                     // модель позиции товара из 1С
                     $extendPosition = current(json_decode($result,true)['response']);
@@ -372,9 +370,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
-                        'auth' => ['OData', '11']
-                    ]);
+                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
                     // модель позиции товара из 1С
                     $extendPosition = current(json_decode($result,true)['response']);
@@ -417,9 +413,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
-                        'auth' => ['OData', '11']
-                    ]);
+                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
                     // модель позиции товара из 1С
                     $extendPosition = current(json_decode($result,true)['response']);
@@ -471,9 +465,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
-                        'auth' => ['OData', '11']
-                    ]);
+                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
                     // модель позиции товара из 1С
                     $extendPosition = current(json_decode($result,true)['response']);
@@ -628,9 +620,10 @@ class TestController
 
         try {
             //region Отправка в 1С
-            $Response1C = $this->Client->post('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/add',[
-                'auth' => ['OData', '11'],
-                'json' => json_encode($Response1CData)]
+            $Response1C = $this->Client->post('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/add',
+                [
+                    'json' => json_encode($Response1CData)
+                ]
             );
 
             $body_response = json_decode(mb_substr(trim($Response1C->getBody()->getContents()), 2, -1),true);
@@ -757,9 +750,7 @@ class TestController
          */
         $arPosition = [];
 
-        $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $position['guid'],[
-            'auth' => ['OData', '11']
-        ]);
+        $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $position['guid']);
         $result = mb_substr(trim($Response1C->getBody()->getContents()), 2, -1);
 
         /**

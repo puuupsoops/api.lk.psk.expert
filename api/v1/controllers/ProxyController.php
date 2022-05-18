@@ -51,7 +51,6 @@ class ProxyController
 
         try{
             $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/statusprint',[
-                'auth' => ['OData', '11'],
                 'json' => $externalDataString
             ]);
 
@@ -95,7 +94,6 @@ class ProxyController
 
         try{
             $Response1C = $this->Client->getAsync('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/printing',[
-                'auth' => ['OData', '11'],
                 'json' => $externalDataString
             ]);
             $Response1C = $Response1C->wait();
@@ -147,7 +145,6 @@ class ProxyController
 
         try{
             $Response1C = $this->Client->post('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/add',[
-                'auth' => ['OData', '11'],
                 'json' => json_encode($externalData)
             ]);
 
@@ -194,9 +191,7 @@ class ProxyController
         $id = $args['id'];
 
         try{
-            $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/partner/'.$id.'/',[
-                'auth' => ['OData', '11']
-            ]);
+            $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/partner/'.$id.'/');
             $body = json_decode(mb_substr(trim($Response1C->getBody()->getContents()), 2, -1));
 
             $response->getBody()->write(json_encode([
