@@ -82,7 +82,7 @@ $app->add(function(
         ->withHeader('Access-Control-Allow-Origin', '*')
         ->withHeader('Access-Control-Allow-Headers', '*')
         ->withHeader('Access-Control-Allow-Methods', '*')
-        ->withHeader('Access-Control-Allow-Credentials', 'true')->withStatus(204);
+        ->withHeader('Access-Control-Allow-Credentials', 'true');
     }
 );
 //endregion
