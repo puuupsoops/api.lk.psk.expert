@@ -61,7 +61,7 @@ function setStorage(string $xml_id): string{
 \Bitrix\Main\Loader::includeModule('iblock');
 
 //$source =  'http://10.68.5.205/stimul_test_maa/hs/ex/partners?active=true';
-$source =  'http://10.68.5.241/stimul/hs/ex/partners?active=true';
+$source =  'http://10.68.5.205/StimulBitrix/hs/ex/partners?active=true';
 $result = file_get_contents($source, false, stream_context_create([
     'http' => [
         'method' => 'GET',
@@ -94,7 +94,7 @@ foreach($arActiveList as $current){
     $Partner = new \API\v1\Managers\Partner();
 
     $partner = $current['guid'];
-    $source =  'http://10.68.5.241/stimul/hs/ex/' . 'partner/' . $partner . '/';
+    $source =  'http://10.68.5.205/StimulBitrix/hs/ex/' . 'partner/' . $partner . '/';
     $result = file_get_contents($source,false, stream_context_create([
         'http' => [
             'method' => 'GET',

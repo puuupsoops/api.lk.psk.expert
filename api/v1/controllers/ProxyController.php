@@ -50,7 +50,7 @@ class ProxyController
         $externalDataString = $request->getBody()->getContents();
 
         try{
-            $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/statusprint',[
+            $Response1C = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/order/statusprint',[
                 'auth' => ['OData', '11'],
                 'json' => $externalDataString
             ]);
@@ -94,7 +94,7 @@ class ProxyController
         $externalDataString = $request->getBody()->getContents();
 
         try{
-            $Response1C = $this->Client->getAsync('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/printing',[
+            $Response1C = $this->Client->getAsync('http://10.68.5.205/StimulBitrix/hs/ex/order/printing',[
                 'auth' => ['OData', '11'],
                 'json' => $externalDataString
             ]);
@@ -146,7 +146,7 @@ class ProxyController
         $externalData = json_decode($request->getBody()->getContents());
 
         try{
-            $Response1C = $this->Client->post('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/add',[
+            $Response1C = $this->Client->post('http://10.68.5.205/StimulBitrix/hs/ex/order/add',[
                 'auth' => ['OData', '11'],
                 'json' => json_encode($externalData)
             ]);
@@ -194,7 +194,7 @@ class ProxyController
         $id = $args['id'];
 
         try{
-            $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/partner/'.$id.'/',[
+            $Response1C = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/partner/'.$id.'/',[
                 'auth' => ['OData', '11']
             ]);
             $body = json_decode(mb_substr(trim($Response1C->getBody()->getContents()), 2, -1));

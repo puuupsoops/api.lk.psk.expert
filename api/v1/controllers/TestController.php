@@ -317,7 +317,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
+                    $Response = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/product/' . $positionGUID,[
                         'auth' => ['OData', '11']
                     ]);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
@@ -372,7 +372,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
+                    $Response = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/product/' . $positionGUID,[
                         'auth' => ['OData', '11']
                     ]);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
@@ -417,7 +417,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
+                    $Response = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/product/' . $positionGUID,[
                         'auth' => ['OData', '11']
                     ]);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
@@ -471,7 +471,7 @@ class TestController
                     $arCharacteristics = $position['characteristics'];
 
                     // запрос позиции товара
-                    $Response = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $positionGUID,[
+                    $Response = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/product/' . $positionGUID,[
                         'auth' => ['OData', '11']
                     ]);
                     $result = mb_substr(trim($Response->getBody()->getContents()), 2, -1);
@@ -628,7 +628,7 @@ class TestController
 
         try {
             //region Отправка в 1С
-            $Response1C = $this->Client->post('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/add',[
+            $Response1C = $this->Client->post('http://10.68.5.205/StimulBitrix/hs/ex/order/add',[
                 'auth' => ['OData', '11'],
                 'json' => json_encode($Response1CData)]
             );
@@ -757,7 +757,7 @@ class TestController
          */
         $arPosition = [];
 
-        $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $position['guid'],[
+        $Response1C = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/product/' . $position['guid'],[
             'auth' => ['OData', '11']
         ]);
         $result = mb_substr(trim($Response1C->getBody()->getContents()), 2, -1);

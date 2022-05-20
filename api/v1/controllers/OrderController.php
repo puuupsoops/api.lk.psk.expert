@@ -82,7 +82,7 @@ class OrderController
         array $args
     ): ResponseInterface {
         try{
-            $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/statusprint',[
+            $Response1C = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/order/statusprint',[
                 'auth' => ['OData', '11'],
                 'json' => [
                 'Orders' => [
@@ -144,7 +144,7 @@ class OrderController
         ]);
 
         try{
-            $Response1C = $this->Client->getAsync('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/printing',['auth' => ['OData', '11'],'json' => $DataString]);
+            $Response1C = $this->Client->getAsync('http://10.68.5.205/StimulBitrix/hs/ex/order/printing',['auth' => ['OData', '11'],'json' => $DataString]);
             $Response1C = $Response1C->wait();
 
             $bodyContents = $Response1C->getBody()->getContents();
@@ -531,7 +531,7 @@ class OrderController
          */
         $arPosition = [];
 
-        $Response1C = $this->Client->get('http://91.193.222.117:12380/stimul_test_maa/hs/ex/product/' . $position['guid'],[
+        $Response1C = $this->Client->get('http://10.68.5.205/StimulBitrix/hs/ex/product/' . $position['guid'],[
             'auth' => ['OData', '11']
         ]);
         $result = mb_substr(trim($Response1C->getBody()->getContents()), 2, -1);
