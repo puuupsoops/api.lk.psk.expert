@@ -5,8 +5,14 @@ namespace Psk\Api\Orders;
 /**
  *  Модель справочника по заказам в базе данных битрикса.
  *
+ * @see https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=43&LESSON_ID=4803 ORM Концепция, описание сущности
+ *
  * -- создать таблицу (создано!).
  * -- \Bitrix\Main\Entity\Base::getInstance('\Psk\Api\Orders\DirectoryTable')->createDbTable();
+ *
+ * -- добавить столбец через sql
+ * ALTER TABLE directory_order_psk ADD COLUMN имя_столбца тип_значения;
+ * ALTER TABLE directory_order_psk ADD COLUMN SHIPMENT_COST VARCHAR (20);
  */
 class DirectoryTable extends \Bitrix\Main\Entity\DataManager
 {
@@ -91,6 +97,20 @@ class DirectoryTable extends \Bitrix\Main\Entity\DataManager
 
             // Скидка числом
             new \Bitrix\Main\Entity\StringField('DISCOUNT'),
+
+            // флаг: для зарезервированного типа заказа
+//            new \Bitrix\Main\Entity\BooleanField('RESERVE',[
+//                'values' => ['N','Y']
+//            ]),
+            new \Bitrix\Main\Entity\IntegerField('RESERVE'),
+            // флаг: заказ доступен для редактирования
+//            new \Bitrix\Main\Entity\BooleanField('EDITABLE',[
+//                'values' => ['N','Y']
+//            ])
+            new \Bitrix\Main\Entity\IntegerField('EDITABLE'),
+
+            // Стоимость отгрузки, строка 900 = 900 рублей
+            new \Bitrix\Main\Entity\StringField('SHIPMENT_COST')
         ];
     }
 }

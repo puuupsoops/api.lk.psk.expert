@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html;" charset="UTF-8" http-equiv="content-type">
+    <style>
+    body {
+        font-family: DejaVu Sans;
+        font-size: 8pt;
+    }
+    table, th, td {
+        border-collapse: collapse;
+    }
+
+    </style>
+</head>
+<body>
+{% if header %}
+<table width=100% cellpadding="5" style="border: 1px solid white;">
+    <tr>
+        <td width="40px"> </td>
+        <td  align="right" width="460px">{{ headerText }}</td>
+        <td> </td>
+        <td> <img width="120" height="120" src="{{ headerLogo }}"> </td>
+        <td width="40px"> </td>
+    </tr>
+</table>
+{% endif %}
+
+<p>{% for position in products %} {{position.characteristics.title}} {% endfor %}</p>
+<p><strong>Коммерческое предложение</strong> № {{ n }} от {{ date }} г.</p>
+<br>
+<p><strong>Поставщик:</strong> {{ executorData.text ?? executor }}</p>
+<p><strong>Покупатель:</strong> {{ customer }} </p>
+
+<table border="1" width=100% cellpadding="5" style="border: 1px solid black;">
+
+    <tr>
+        <th bgcolor="#d3d3d3" style="border: 1px solid black;">№</th>
+        <th bgcolor="#d3d3d3" style="border: 1px solid black;">Артикул</th>
+        <th bgcolor="#9470db" style="border: 1px solid black;">Название / Описание</th>
+        <th bgcolor="#d3d3d3" style="border: 1px solid black;">Фото</th>
+        <th bgcolor="#d3d3d3" style="border: 1px solid black;">Характеристика</th>
+        <th bgcolor="#e6b00f" style="border: 1px solid black;">Цена</th>
+        <th bgcolor="#e6b00f" style="border: 1px solid black;">Кол-во</th>
+        <th bgcolor="#9470db" style="border: 1px solid black;">Сумма</th>
+    </tr>
+    {% for position in products %}
+    <tr>
+        <td style="border: 1px solid black;">{{ loop.index }}</td>
+        <td width="70px" style="border: 1px solid black;">{{ position.article }}</td>
+        <td width="200px" style="border: 1px solid black;">{{ position.name }}</td>
+        <td align="center" style="border: 1px solid black;"> {% for image in position.images %} <img height="160" src="{{ image }}"> {% endfor %}</td>
+        <td align="right" style="border: 1px solid black;"> {% for characteristic in position.characteristics %} <p>{{ characteristic['title'] }}</p> {% endfor %} </td>
+        <td width="80px" style="border: 1px solid black;"> {% for price in position.characteristics %} <p>{{ price['price'] }}</p> {% endfor %} </td>
+        <td width="60px" align="center" style="border: 1px solid black;"> {% for amount in position.characteristics %} <p>{{ amount['amount'] }}</p> {% endfor %} </td>
+        <td width="80px" style="border: 1px solid black;"> {% for total in position.characteristics %} <p>{{ total['total'] }}</p> {% endfor %} </td>
+    </tr>
+    {% endfor %}
+</table>
+<p>Всего наименований: {{ amount }} , на сумму {{ cost }} руб. {% if additionally.deliveryValue > 0 %} <i>( + доставка {{ additionally.deliveryValueText }} руб. )</i> {% endif %}</p>
+<p><strong>ИТОГО:</strong> {{ sum }} руб. {% if additionally.deliveryValue > 0 %} <i>( + доставка {{ additionally.deliveryValueText }} руб. )</i> {% endif %}</p>
+<p> <strong>Общая стоимость составляет: {{ textSum }}</strong> </p>
+<br>
+
+{# Самовывоз #}
+{% if additionally.pickup %}
+<p><strong>УСЛОВИЯ ДОСТАВКИ:</strong> Самовывоз со склада поставщика.</p>
+    {% if additionally.pickupValue|length > 0 %}
+<p>По адресу: <i>{{ additionally.pickupValue }}</i></p>
+    {% endif %}
+{% endif %}
+<br>
+
+{# Доставка #}
+{% if additionally.delivery %}
+<p><strong>УСЛОВИЯ ДОСТАВКИ:</strong> Доставка до получателя.</p>
+{% endif %}
+<br>
+
+{# Предоплата #}
+{% if additionally.prepayment and additionally.delay == false %}
+
+    {# Предоплата 100% #}
+    {% if additionally.prepaymentValue == 1.00 %}
+    <p><strong>УСЛОВИЯ ОПЛАТЫ:</strong></p>
+    <p>Оплата производится в следующем порядке - 100% предоплата.</p>
+    {% else %}
+    {# Предоплата меньше 100% #}
+    <p><strong>УСЛОВИЯ ОПЛАТЫ:</strong></p>
+    <p>Оплата производится в следующем порядке - {{ additionally.prepaymentValueText }} предоплата. </p>
+    <p>Оставшиеся – {{ additionally.prepaymentResidueText }} от общей стоимости по факту получения товара.  </p>
+    {% endif %}
+
+{% endif %}
+<br>
+
+{# Отсрочка #}
+{% if additionally.delay %}
+    {% if additionally.prepaymentValue == 0.00 %}
+
+    {% else %}
+        <p><strong>УСЛОВИЯ ОПЛАТЫ:</strong></p>
+        <p>Оплата производится в следующем порядке - {{ additionally.prepaymentValueText }} предоплата. </p>
+        {% if additionally.delayCalendarValue %}
+        <p>Оставшиеся – {{ additionally.prepaymentResidueText }} от общей стоимости, в течение {{ additionally.delayCalendarValue }} календарных дней. </p>
+        {% endif %}
+        {% if additionally.delayWorkValue %}
+        <p>Оставшиеся – {{ additionally.prepaymentResidueText }} от общей стоимости, в течение {{ additionally.delayWorkValue }} рабочих дней. </p>
+        {% endif %}
+    {% endif %}
+<br>
+{% if additionally.prepaymentValue == 0.00 %}
+    <p><strong>УСЛОВИЯ ОПЛАТЫ:</strong></p>
+{% endif %}
+    {% if additionally.delayCalendarValue and additionally.prepaymentValue == 0.00 %}
+        <p>Отсрочка платежа {{ additionally.delayCalendarValue }} календарных дней</p>
+    {% endif %}
+    {% if additionally.delayWorkValue and additionally.prepaymentValue == 0.00 %}
+        <p>Отсрочка платежа {{ additionally.delayWorkValue }} рабочих дней</p>
+    {% endif %}
+
+{% endif %}
+<br>
+
+{# Комментарий #}
+<p> {{ comment }} </p>
+
+<br>
+<p> <strong>Поставщик: </strong> {{ executor }} <strong>_________________</strong>    <strong>_______________________________________</strong></p>
+</body>
+</html>

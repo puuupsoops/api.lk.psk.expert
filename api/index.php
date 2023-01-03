@@ -6,6 +6,9 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
 require_once 'v1/middleware/CORSMiddleware.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Configuration.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/repositories/NotificationMessageRepository.php';
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -14,9 +17,21 @@ use Psr\Container\ContainerInterface;
 use Slim\App as Slim;
 use DI\Container;
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+//$container = new Container();
 
-$container = new Container();
+$containerBuilder = new \DI\ContainerBuilder();
+
+$containerBuilder->addDefinitions([
+    'dbPath' => '/srv/db_notification/NotificationsUserList.db',
+    \PDO::class => function (\Psr\Container\ContainerInterface $container) {
+        return new \PDO('sqlite:' . $container->get('dbPath'));
+    },
+    \API\v1\Repositories\NotificationMessageRepository::class => function (\Psr\Container\ContainerInterface $container) {
+        return (new \API\v1\Repositories\NotificationMessageRepository())->addDBHandler($container->get(\PDO::class));
+    }
+]);
+
+$container = $containerBuilder->build();
 
 \Slim\Factory\AppFactory::setContainer($container);
 $app = \Slim\Factory\AppFactory::create(null);

@@ -7,8 +7,12 @@ include_once 'controllers/TestController.php';
 include_once 'controllers/ProxyController.php';
 include_once 'controllers/DeliveryController.php';
 include_once 'controllers/GateController.php';
+include_once 'controllers/DebugController.php';
+include_once 'controllers/ProposalController.php';
+include_once 'controllers/DdataController.php';
 include_once 'middleware/AuthMiddleware.php';
 include_once 'middleware/AuthMiddlewareTest.php';
+include_once 'middleware/GetPartnerDdataMiddleware.php';
 
 use Slim\Routing\RouteCollectorProxy;
 
@@ -17,6 +21,17 @@ use Slim\Routing\RouteCollectorProxy;
 /**
  * @var RouteCollectorProxy $group
  */
+
+// Для отладки
+$group->group(
+    '/debugger',
+    function (RouteCollectorProxy $group){
+        $group->post(
+            '/order/add',
+            \API\v1\Controllers\DebugController::class .':AddOrderExtend'
+        )->add(new API\v1\Middleware\AuthMiddlewareTest());
+    }
+);
 
 $group->group(
     '/tmp',
@@ -31,6 +46,48 @@ $group->group(
 $group->group(
     '/user',
     function (RouteCollectorProxy $group) {
+
+        //region запросы из ЛК
+        $group->group(
+            '/request',
+            function (RouteCollectorProxy $group) {
+
+                // Запросить счёт (запрос идет в 1С, меняет статус, отправляет уведомление менеджеру).
+                $group->post(
+                    '/check/{id}',
+                    \API\v1\Controllers\UserController::class . ':RequestCheck'
+                );
+
+            }
+        );
+        //endregion
+
+        //region Настройки для пользователя
+        $group->group(
+            '/settings',
+            function (RouteCollectorProxy $group){
+
+                // получить настройки конкретного пользователя
+                $group->get(
+                    '',
+                    \API\v1\Controllers\UserController::class . ':GetSettings'
+                );
+
+                // установить настройки для уведомлений
+                $group->post(
+                    '/notifications/update',
+                    \API\v1\Controllers\UserController::class . ':UpdateNotificationsSetup'
+                );
+
+                // установить персональные настройки
+                $group->post(
+                    '/personal/update',
+                    \API\v1\Controllers\UserController::class . ':UpdatePersonalData'
+                );
+
+            }
+        );
+        //endregion
 
         // получить заказ по идентификатору
         $group->get(
@@ -171,10 +228,121 @@ $group->group(
                     \API\v1\Controllers\GateController::class . ':SetStatusByGUID'
                 );
 
+                $group->post(
+                    '/expired',
+                    \API\v1\Controllers\GateController::class . ':CloseReservedOrderById'
+                );
+
+                // для модели отредактированного заказа в 1С
+                $group->post(
+                    '/edit',
+                    \API\v1\Controllers\GateController::class . ':EditOrderReserveByIdFrom1C'
+                );
+
+                // для модели отредактированного заказа в 1С
+                $group->post(
+                    '/cost',
+                    \API\v1\Controllers\GateController::class . ':SetShipmentCost'
+                );
             }
         );
     }
 );
+//endregion
+
+//region Службы расширяющие функционал ЛК
+$group->group(
+    '/services',
+    function (RouteCollectorProxy $group) {
+
+        // работа с Коммерческим предложением
+        $group->group(
+            '/proposal',
+            function (RouteCollectorProxy $group) {
+
+                // добавить конфигурацию коммерческого предложения
+                $group->post(
+                    '/add',
+                    \API\v1\Controllers\ProposalController::class . ':Add')
+                    ->add(new API\v1\Middleware\GetPartnerDdataMiddleware());
+
+                // удалить конфигурацию коммерческого предложения
+                $group->post(
+                    '/{id:[0-9]+}/delete',
+                    \API\v1\Controllers\ProposalController::class . ':DeleteProposalById');
+
+                // список конфигураций коммерческого предложения
+                $group->get(
+                    '/list',
+                    \API\v1\Controllers\ProposalController::class . ':GetProposalList');
+
+                // конфигурация коммерческого предложения по идентификатору
+                $group->get(
+                    '/{id:[0-9]+}',
+                    \API\v1\Controllers\ProposalController::class . ':GetProposalById');
+
+                // логотипы
+                $group->group(
+                    '/logo',
+                    function (RouteCollectorProxy $group) {
+
+                        // добавить логотип
+                        $group->post(
+                            '/add',
+                            \API\v1\Controllers\ProposalController::class . ':AddLogo'
+                        );
+
+                        // удалить логотип по идентификатору
+                        $group->post(
+                            '/delete',
+                            \API\v1\Controllers\ProposalController::class . ':DeleteLogoById'
+                        );
+
+                        // список логотипов
+                        $group->get(
+                            '/list',
+                            \API\v1\Controllers\ProposalController::class . ':GetLogoList'
+                        );
+
+                });
+
+                // шапки коммерческого предложения
+                $group->group(
+                    '/header',
+                    function (RouteCollectorProxy $group) {
+
+                        // добавить шапку коммерческого предложения
+                        $group->post(
+                            '/add',
+                            \API\v1\Controllers\ProposalController::class . ':AddPreamble'
+                        );
+
+                        // удалить шапку коммерческого предложения по идентификатору
+                        $group->post(
+                            '/delete',
+                            \API\v1\Controllers\ProposalController::class . ':DeletePreambleById'
+                        );
+
+                        // список шапок коммерческого предложения
+                        $group->get(
+                            '/list',
+                            \API\v1\Controllers\ProposalController::class . ':GetPreambleList'
+                        );
+
+                    });
+
+                // получить данные контрагента с сервиса ddata
+                $group->get(
+                    '/org/{id:[0-9]+}',
+                    \API\v1\Controllers\DdataController::class . ':GetByInn'
+                );
+
+            }
+        );
+
+    }
+)->add(new API\v1\Middleware\AuthMiddlewareTest());
+
 //endregion
 
 // Получить данные по товару
@@ -214,7 +382,7 @@ $group->group(
     '/order',
     function(RouteCollectorProxy $group){
 
-        // получить cтатусы печатных форм
+        // получить статусы печатных форм
         $group->get(
             '/{id}/documents',
             \API\v1\Controllers\OrderController::class . ':GetDocumentsStatusById'
@@ -228,11 +396,20 @@ $group->group(
         );
 
         // добавить новый заказ
+        //$group->post(
+        //    '/add',
+        //    \API\v1\Controllers\TestController::class . ':OrderAdd' //\API\v1\Controllers\OrderController::class . ':Add'
+        //);
+            //->add(new \API\v1\Middleware\AuthMiddleware());
         $group->post(
             '/add',
-            \API\v1\Controllers\TestController::class . ':OrderAdd' //\API\v1\Controllers\OrderController::class . ':Add'
-        );
-            //->add(new \API\v1\Middleware\AuthMiddleware());
+            \API\v1\Controllers\OrderController::class . ':AddExtend' //\API\v1\Controllers\OrderController::class . ':Add'
+        )->add(new API\v1\Middleware\AuthMiddlewareTest());
+
+        $group->post(
+            '/{id}/edit',
+            \API\v1\Controllers\OrderController::class . ':EditReserve' //\API\v1\Controllers\OrderController::class . ':Add'
+        )->add(new API\v1\Middleware\AuthMiddlewareTest());
 
     }
 );

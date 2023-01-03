@@ -50,6 +50,10 @@ class Contract extends \API\v1\Models\StorageEx
         $this->discount         = (float) $data['PROPERTY_DISCOUNT_VALUE'];
         $this->date             = $data['PROPERTY_PAY_DATE_VALUE']; # дата погашения
 
+        $this->case             = $data['PROPERTY_CASE_VALUE'] ?? '';
+        $this->percent          = (float) $data['PROPERTY_PERCENT_VALUE'] ?? 0.0;
+        $this->limit            = $data['PROPERTY_LIMIT_VALUE'] ?? '0';
+
         $this->SetSection($data['IBLOCK_SECTION_ID']);
     }
 
@@ -79,7 +83,6 @@ class Contract extends \API\v1\Models\StorageEx
     public function SectionId(): int{
         return $this->sectionBitrixId;
     }
-
     /**
      * Устанавливает данные для секции (раздела) в битрикс
      *

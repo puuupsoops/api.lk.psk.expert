@@ -80,7 +80,8 @@ class CUserTypeOrderItem
          *         }
          */
         //endregion
-        if($value['VALUE']['GUID'] && $value['VALUE']['CHARACTERISTICS']){
+        //если запись из интерфейса битрикс
+        if(array_key_exists('GUID',$value['VALUE']) && array_key_exists('CHARACTERISTICS',$value['VALUE'])){
 
             $arData['guid'] = $value['VALUE']['GUID'];
 
@@ -96,10 +97,16 @@ class CUserTypeOrderItem
             $value['VALUE'] = base64_encode(serialize($arData));
 
             return $value;
-
-        }else{
-            return false;
         }
+
+        //если запись из api
+        if($value['VALUE']){
+            $value['VALUE'] = base64_encode($value['VALUE']);
+            return $value;
+        }
+
+        return false;
+
     }
 
     /**
@@ -125,7 +132,7 @@ class CUserTypeOrderItem
                 return $value;
             }
 
-            $value['VALUE'] = base64_decode($value["VALUE"]);
+            $value['VALUE'] = unserialize(htmlspecialcharsback(base64_decode($value["VALUE"])));
             return $value;
 
         }else{
@@ -201,7 +208,7 @@ class CUserTypeOrderItem
         $itemId = 'row_' . substr(md5($arHtmlControl['VALUE']), 0, 10); //ID для js
 
         # htmlspecialcharsback нужен для того, чтобы избавиться от многобайтовых символов из-за которых не работает unserialize()
-        $arValue = unserialize(htmlspecialcharsback($value['VALUE']));
+        $arValue = $value['VALUE'];
 
         /**
          * @var string Идентификатор связанного элемента номенклатуры

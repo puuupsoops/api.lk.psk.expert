@@ -726,8 +726,9 @@ class TestController
             $arUser = $rsUser->Fetch();
 
             $Postman->SendMessage(
-                $arUser['EMAIL'],
-                'Заказ: №' . $orderRootID . ' зарегистрирован.'
+                (string)$CompleteOrderID->getId(),
+                'Заказ: №' . $CompleteOrderID->getId() . ' зарегистрирован.',
+                [ $arUser['EMAIL'] ]
             );
         }catch (\PHPMailer\PHPMailer\Exception $e){
             $this->Monolog->error('Ошибка отправки почтового сообщения',[

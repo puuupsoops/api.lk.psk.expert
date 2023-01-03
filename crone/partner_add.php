@@ -226,7 +226,13 @@ foreach($arActiveList as $current){
             'PAY_DATE'  => date('d.m.Y H:m:s',strtotime($tmp['date'])), //дата погашения
             'DISCOUNT'  => $tmp['discount'],    //скидка
             'SPENT'     => $tmp['spent'],    //Потрачено средств всего
-            'PARTNER'   => $Partner->Id()    // id элемента с контрагентом
+            'PARTNER'   => $Partner->Id(),    // id элемента с контрагентом
+
+            // новые поля : 2022-10-21
+            'CASE' => $tmp['case'] ? ucfirst(mb_strtolower(trim($tmp['case']))) : '', // Виз взаиморасчетов: ОТСРОЧКА, ПРЕДОПЛАТА
+            'LIMIT' => $tmp['limit'] ? (string)$tmp['limit'] : '0', // лимит (приходит как int)
+            'PERCENT' => $tmp['percent'] ?? 0 // Процент предоплаты (приходит как  int)
+
         ];
 
         $arLoadProductArray = [

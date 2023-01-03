@@ -50,6 +50,15 @@ class StorageEx extends \API\v1\Models\BaseModelEx
      */
     protected string $date;
 
+    /** @var string Вид взаиморасчетов: ОТСРОЧКА, ПРЕДОПЛАТА */
+    protected string $case;
+
+    /** @var float Процент предоплаты */
+    protected float $percent;
+
+    /** @var string Лимит */
+    protected string $limit;
+
     /**
      * Получить значения модели в виде массива
      */

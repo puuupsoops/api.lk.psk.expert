@@ -1,0 +1,38 @@
+<p>Заказ: № {{ ORDER_ID }} зарегистрирован.</p>
+<br>
+<table border="1">
+    <tr>
+        <td><b>Наименование</b></td>
+        <td><b>Артикул</b></td>
+        <td><b>Количество</b></td>
+        <td><b>Стоимость</b></td>
+        <td><b>Изображение</b></td>
+    </tr>
+    {% for position in ORDER %}
+    <tr>
+        <td>{% if position.pre %}<i style="color: orange;">{{ position.pre }}</i>{% endif %} {{ position.name }}</td>
+        <td>{{ position.article }}</td>
+        <td></td>
+        <td></td>
+        <td><div style="height: 320px; width: 230px; display: block; background: url({{ position.image }}); background-size: cover;"></div></td>
+    </tr>
+        {% for characteristic in position.characteristics %}
+        <tr>
+            <td align="right">{{ characteristic.title }}</td>
+            <td></td>
+            <td align="right">{{ characteristic.quantity }} шт.</td>
+            <td align="right">{{ characteristic.price }} ₽</td>
+        </tr>
+        {% endfor %}
+
+    {% endfor %}
+
+    <tr>
+        <td>
+            Итого:
+        </td>
+        <td>
+            <b>{{ SUM }} ₽</b>
+        </td>
+    </tr>
+</table>

@@ -29,10 +29,10 @@ class Postman
      * @param string|null $password Пароль
      */
     public function __construct(
-        string $host = 'smtp.spaceweb.ru',
-        int $port = 25,
-        string $username = 'lk.psk@devoops2.online',
-        string $password = '970aP6DUnN4Y'
+        string $host = 'smtp.spaceweb.ru', // адрес-хоста
+        int $port = 25, // порт подключения
+        string $username = 'lk.psk@devoops2.online', // логин
+        string $password = '970aP6DUnN4Y' // пароль
     )
     {
         $this->PHPMailer = new \PHPMailer\PHPMailer\PHPMailer();

@@ -16,6 +16,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/StorageDocumen
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/responses/Responses.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/responses/ErrorResponse.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/managers/Manager.php';
 
 include_once $_SERVER['DOCUMENT_ROOT'] . '/Environment.php';
 
@@ -65,22 +66,28 @@ class PartnerController {
         ResponseInterface $response,
         array $args
     ): ResponseInterface{
+        $managerId = $request->getQueryParams()['id'];
+        $manager = \API\v1\Managers\Manager::GetInstance()::GetByXmlId($managerId);
 
-        $responseData = [
-                'image' => 'http://10.68.5.243/upload/main/476/476c8c674d0c302163f5d03734e538dd.png',
+        if($manager->GetEmail()){
+            $responseData = $manager->AsArray();
+        }else{
+            $responseData = [
+                'image' => '',
                 'phone2' => '', // телефон если есть запасной
                 'email' => 's.melentyev@psk.expert',
                 'contact' => '84951033030',
                 'phone1' => '495-103-3030 доб.490',
                 'name' => 'Мелентьев Сергей Александрович',
                 'header' => [ // тут заведующий над менеджером
-                    'name' => 'Иванов Иван Иванович',
-                    'contact' => '84951033030',
-                    'email' => 'sergei@melentiev.com',
-                    'phone1' => '495-103-3030 доб.577',
-                    'phone2' => '',
+                              'name' => 'Иванов Иван Иванович',
+                              'contact' => '84951033030',
+                              'email' => 'sergei@melentiev.com',
+                              'phone1' => '495-103-3030 доб.577',
+                              'phone2' => '',
                 ]
-        ];
+            ];
+        }
 
         # Сформировать успешный ответ
         $Response = new Response();

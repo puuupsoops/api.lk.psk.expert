@@ -4,12 +4,15 @@ namespace API\v1\Models;
 include_once $_SERVER['DOCUMENT_ROOT'] . '/api/v1/models/external/BaseModelEx.php';
 
 /**
- * Модель позиции заказа
+ * Модель позиции заказа, выдача списка в ЛК.
  *
  * @package API\v1\Models
  */
 class OrderEx extends \API\v1\Models\BaseModelEx
 {
+    /** @var bool Флаг резерва заказа, по умолчанию false */
+    public bool $reserved = false;
+
     /**
      * @var string Идентификатор заказа ID из таблицы, => из 1С
      */
@@ -54,5 +57,8 @@ class OrderEx extends \API\v1\Models\BaseModelEx
      * @var int Идентификатор заказа (INDEX из таблицы)
      */
     public int $n;
+
+    /** @var string Комментарий к заказу */
+    public string $comment;
 
 }

@@ -19,6 +19,6 @@ class Response extends BaseResponse
         return json_encode([
             "response" => $this->data,
             "error" => null
-        ]);
+        ],JSON_UNESCAPED_SLASHES | JSON_HEX_QUOT);
     }
 }

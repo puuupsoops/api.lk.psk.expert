@@ -35,7 +35,10 @@ class Contract
         'PROPERTY_DEBT',
         'PROPERTY_BALANCE',
         'PROPERTY_DISCOUNT',
-        'PROPERTY_PAY_DATE'
+        'PROPERTY_PAY_DATE',
+        'PROPERTY_CASE',
+        'PROPERTY_PERCENT',
+        'PROPERTY_LIMIT'
     ];
 
     public function __construct(){
@@ -86,7 +89,21 @@ class Contract
             false,
             $arSelect);
 
-        while($obj = $arResult->Fetch()){
+        while($obj = $arResult->Fetch()) {
+            /*
+                if(strtotime($obj['PROPERTY_PAY_DATE_VALUE']) > 0) { // дата погашения > 0
+                    $Contracts[] = new \API\v1\Models\Contract($obj);
+                }
+            */
+
+            // правка от 2022-12-12, на вывод ПРЕДОПЛАТ с датами 01.01. 0001
+            if(
+                strtotime($obj['PROPERTY_PAY_DATE_VALUE']) < 0 &&
+                $obj['PROPERTY_CASE_VALUE'] === 'отсрочка'
+            ) { // дата погашения < 0
+                continue;
+            }
+
             $Contracts[] = new \API\v1\Models\Contract($obj);
         }
 

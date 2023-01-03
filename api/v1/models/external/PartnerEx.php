@@ -61,8 +61,35 @@ class PartnerEx extends \API\v1\Models\BaseModelEx {
     protected string $correspondent;
 
     /** @var string Идентификатор менеджера */
-    protected string $manager_uid;
+    protected string $managerUid;
 
     /** @var string  ФИО менеджера */
-    protected string $manager_name;
+    protected string $managerName;
+
+    /**
+     * Получить идентификатор 1С
+     *
+     * @return string
+     */
+    public function GetUID(): string {
+        return $this->uid;
+    }
+
+    /**
+     * Получить идентификатор менеджера 1С
+     *
+     * @return string
+     */
+    public function GetManagerUID(): string {
+        return $this->managerUid;
+    }
+
+    /**
+     * Получить ФИО менеджера
+     *
+     * @return string
+     */
+    public function GetManagerName(): string {
+        return $this->managerName;
+    }
 }

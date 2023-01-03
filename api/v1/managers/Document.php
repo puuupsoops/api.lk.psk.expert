@@ -71,9 +71,13 @@ class Document
             false,
             $arSelect);
 
-        while($obj = $arResult->Fetch() ){
+        /** @var int $currentDate Текущая дата */
+        $currentDate = getdate()[0];
 
-            $Documents[] = new \API\v1\Models\Document($obj);
+        while($obj = $arResult->Fetch() ) {
+            if(strtotime($obj['PROPERTY_EXPIRES_VALUE']) >= $currentDate) { // дата оплаты > 0
+                $Documents[] = new \API\v1\Models\Document($obj);
+            }
         }
 
         if(!empty($Documents)){

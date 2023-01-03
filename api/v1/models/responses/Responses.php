@@ -17,14 +17,13 @@ use API\v1\Models\Response,
 function ErrorResponse(
     \Exception $e,
     \Psr\Http\Message\ResponseInterface &$response) : \Psr\Http\Message\ResponseInterface{
-
     $ErrorResponse = new ErrorResponse();
-    $ErrorResponse->code = $e->getCode();
+    $ErrorResponse->code = $e->getCode() > 0 ? $e->getCode() : 500;
     $ErrorResponse->message = $e->getMessage();
 
     $response->getBody()->write($ErrorResponse->AsJSON());
 
     return $response
         ->withHeader('Content-Type', 'application/json')
-        ->withStatus($ErrorResponse->code ?? 500);
+        ->withStatus($ErrorResponse->code);
 }

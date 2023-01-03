@@ -144,12 +144,20 @@ class ProxyController
     ): ResponseInterface{
 
         $externalData = json_decode($request->getBody()->getContents());
+        $queryParamsTestFlag = $request->getQueryParams()['test'];
 
         try{
-            $Response1C = $this->Client->post('http://10.68.5.205/StimulBitrix/hs/ex/order/add',[
-                'auth' => ['OData', '11'],
-                'json' => json_encode($externalData)
-            ]);
+            if( !(int)$queryParamsTestFlag ) {
+                $Response1C = $this->Client->post('http://10.68.5.205/StimulBitrix/hs/ex/order/add',[
+                    'auth' => ['OData', '11'],
+                    'json' => json_encode($externalData)
+                ]);
+            }else{
+                // запрос в тестовую базу
+                $Response1C = $this->Client->post('http://91.193.222.117:12380/stimul_test_maa/hs/ex/order/add',[
+                    'json' => json_encode($externalData)
+                ]);
+            }
 
             $bodyContents = $Response1C->getBody()->getContents();
             $bodyContents = json_decode(mb_substr(trim($bodyContents), 2, -1),true);
@@ -165,14 +173,17 @@ class ProxyController
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(201);
         }catch (\GuzzleHttp\Exception\GuzzleException $e){
+            //var_dump($Response1C->getBody()->getContents());
+            $code = $e->getCode();
+
             $response->getBody()->write(json_encode([
-                'code' => $e->getCode(),
+                'code' => $code,
                 'message' => $e->getMessage()
             ]));
 
             return $response
                 ->withHeader('Content-Type', 'application/json')
-                ->withStatus($e->getCode());
+                ->withStatus($code);
         }
 
     }

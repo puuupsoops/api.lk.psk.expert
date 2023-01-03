@@ -10,13 +10,21 @@ namespace API\v1\Models\Registers;
 class OrderStatus
 {
     /**
-     * @var int Создан
+     * @var int Зарегистрирован.
+     *
+     * modify_date: 2022-09-08
+     * [deprecated] Создан.
      */
     public const created = 0;
 
     /**
-     * @var int В ожидании.
-     * когда клиент сформировал заказ и он полетел в 1с -его статус  в лк - в ожидание.
+     * @var int Предзаказ.
+     * Для заказа, у которого превышено количество остатков на складах.
+     *   -- Не проводиться в 1С.
+     *
+     * modify_date: 2022-08-26
+     * [deprecated] В ожидании.
+     * [deprecated_description]когда клиент сформировал заказ и он полетел в 1с -его статус  в лк - в ожидание.
      */
     public const waiting = 1;
 
@@ -49,16 +57,50 @@ class OrderStatus
     public const transferred = 5;
 
     /**
+     * @var int Создан.
+     * Заказ создан как резерв.
+     *
+     * modify_date: 2022-09-08
+     * [deprecated] В резерве.
+     */
+    public const reserved = 6;
+
+    /**
+     * @var int Истек.
+     * Заказ закрыт по истечению срока резерва.
+     * (может закрываться статусом 9, зависит от 1С базы)
+     */
+    public const expired = 7;
+
+    /**
+     * @var int Отменен.
+     * Заказ отменен.
+     */
+    public const canceled = 8;
+
+    /**
+     * @var int Закрыт.
+     * Заказ закрыт.
+     */
+    public const closed = 9;
+
+    /**
+     * @var int Запрошен.
+     * Запрос счета. (в 1С)
+     */
+    public const requested = 10;
+
+    /**
      * @var array[] описание статусов в виде массива
      */
     private const LIST = [
         0 => [
-            'title' => 'Создан.',
+            'title' => 'Зарегистрирован.',
             'label' => 'created',
             'code' => 0,
         ],
         1 => [
-            'title' => 'В ожидании.',
+            'title' => 'Предзаказ.',
             'label' => 'waiting',
             'code' => 1,
         ],
@@ -82,6 +124,31 @@ class OrderStatus
             'label' => 'transferred',
             'code' => 5,
         ],
+        6 => [
+            'title' => 'Создан.',
+            'label' => 'reserved',
+            'code' => 6,
+        ],
+        7 => [
+            'title' => 'Истек.',
+            'label' => 'expired',
+            'code' => 7,
+        ],
+        8 => [
+            'title' => 'Отменен.',
+            'label' => 'canceled',
+            'code' => 8,
+        ],
+        9 => [
+            'title' => 'Закрыт.',
+            'label' => 'closed',
+            'code' => 9,
+        ],
+        10 => [
+            'title' => 'Запрос счета.',
+            'label' => 'requested',
+            'code' => 10,
+        ]
     ];
 
     /**
